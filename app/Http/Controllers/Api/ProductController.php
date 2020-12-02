@@ -16,7 +16,6 @@ class ProductController extends BaseController
     }
     public function getProducts()
     {
-        $products = $this->productRepository->listProducts();
-        return $this->responseJson(false, 200, 'Products retrieved successfully', $products );
+        return $this->productRepository->listProducts();
     }
 }

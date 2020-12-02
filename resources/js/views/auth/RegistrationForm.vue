@@ -10,38 +10,33 @@
 
       <div class="flex flex-col justify-center md:justify-start my-auto pt-8 md:pt-0 px-8 md:px-24 lg:px-32">
         <p class="text-center text-3xl">Join Us.</p>
-        <form action="#" class="flex flex-col pt-3 md:pt-8" @submit.prevent="register">
+        <form class="flex flex-col pt-3 md:pt-8">
           <div class="flex flex-col pt-4">
             <label for="name" class="text-lg">Name</label>
-            <input v-model="form.name" type="text" placeholder="Name" id="name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline" :class="{ 'is-invalid': form.errors.has('name') }" name="name">
-            <has-error :form="form" field="name"></has-error>
+            <input v-model="name" type="text" placeholder="Name" id="name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline" name="name">
           </div>
 
           <div class="flex flex-col pt-4">
             <label for="email" class="text-lg">Email</label>
-            <input v-model="form.email" type="email" placeholder="your@email.com" id="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline" :class="{ 'is-invalid': form.errors.has('email') }" name="email">
-            <has-error :form="form" field="email"></has-error>
+            <input v-model="email" type="email" placeholder="your@email.com" id="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline" name="email">
           </div>
 
           <div class="flex flex-col pt-4">
             <label for="password" class="text-lg">Password</label>
-            <input v-model="form.password" type="password" placeholder="password" id="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline" :class="{ 'is-invalid': form.errors.has('password') }" name="password">
-            <has-error :form="form" field="password"></has-error>
+            <input v-model="password" type="password" placeholder="password" id="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline" name="password">
           </div>
 
           <div class="flex flex-col pt-4">
             <label for="confirm-password" class="text-lg">Confirm Password</label>
-            <input v-model="form.password_confirmation" type="password" placeholder="Confirm password" id="confirm-password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline" :class="{ 'is-invalid': form.errors.has('password_confirmation') }" name="password_confirmation">
-            <has-error :form="form" field="password_confirmation"></has-error>
+            <input v-model="password_confirmation" type="password" placeholder="Confirm password" id="confirm-password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline" name="password_confirmation">
           </div>
-          <p id="text" style="color:green; margin-left:100px;"></p>
-          <input type="submit" value="Register" class="bg-black text-white font-bold text-lg hover:bg-gray-700 p-2 mt-8">
+          <p id="text" style="color:green; margin-left:100px;">{{output}}</p>
+          <input type="submit" value="Register" class="bg-black text-white font-bold text-lg hover:bg-gray-700 p-2 mt-8" @click="handleSubmit">
         </form>
         <div class="text-center pt-12 pb-12">
-          <p>Already have an account? <a href="login.html" class="underline font-semibold">Log in here.</a></p>
+          <p>Already have an account? <a href="/login" class="underline font-semibold">Log in here.</a></p>
         </div>
       </div>
-
     </div>
 
     <!-- Image Section -->
@@ -54,30 +49,45 @@
 
 <script>
 export default {
-
-  data () {
+  props : ['nextUrl'],
+  data(){
     return {
-      form: new Form({
-        name: '',
-        email: '',
-        password: '',
-        password_confirmation: '',
-      })
+      name : "",
+      email : "",
+      password : "",
+      password_confirmation : "",
+      output: ""
     }
   },
+  methods : {
+    handleSubmit(e) {
+      e.preventDefault()
+      let currentObj = this;
+      if (this.password === this.password_confirmation && this.password.length > 0)
+      {
+        axios.post('auth/register', {
+          name: this.name,
+          email: this.email,
+          password: this.password,
+          password_confirmation : this.password_confirmation
+        })
+            .then(response => {
+              if(response.data.error === true) {
+                currentObj.output = 'Registration failed!';
+              } else {
+                currentObj.output = 'Registration Successful!';
+              }
+            })
+            .catch(error => {
+              console.error(error);
+            });
+      } else {
+        this.password = ""
+        this.passwordConfirm = ""
 
-  methods: {
-
-    register () {
-      this.form.post('/register')
-          .then(( response ) => {
-            var attr = document.getElementById("text");
-            attr.innerHTML = response.data.message;
-
-            this.form.reset();
-
-          })
-    },
+        return alert('Passwords do not match')
+      }
+    }
   }
 }
 </script>

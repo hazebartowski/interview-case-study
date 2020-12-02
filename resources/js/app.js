@@ -44,38 +44,71 @@ if (token) {
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
-//Import View Router
-import VueRouter from 'vue-router'
-Vue.use(VueRouter)
+
 
 //Routes
 import App from './components/App';
-import { routes } from './routes';
-
-//Register Routes
-const router = new VueRouter({
-    routes,
-    mode: 'history',
-
-})
-
-import { Form, HasError, AlertError } from 'vform'
-window.Form = Form;
-Vue.component(HasError.name, HasError)
-Vue.component(AlertError.name, AlertError)
 
 //Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('navbar-component', require('./components/NavbarComponent').default);
 Vue.component('footer-component', require('./components/FooterComponent').default);
 Vue.component('registration-form', require('./views/auth/RegistrationForm').default);
 Vue.component('login-form', require('./views/auth/LoginForm').default);
-//Vue.component('homepage-component', require('./components/Homepage').default);
+Vue.component('product-component', require('./components/ProductComponent').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+
+Vue.use(VueRouter)
+
+
+import Register from './views/auth/RegistrationForm'
+import Login from './views/auth/LoginForm'
+import Homepage from './views/pages/Homepage'
+
+export const router = new VueRouter({
+    mode: 'history',
+    routes: [
+        {
+            path:'/register',
+            name: 'register',
+            component:Register
+        },
+        {
+            path:'/login',
+            name: 'login',
+            component:Login,
+
+        },
+        {
+            path:'/',
+            name: 'home',
+            component:Homepage,
+
+        },
+    ],
+})
+
+router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+        if (localStorage.getItem('access_token') == null) {
+            next({
+                path: '/login',
+                params: { nextUrl: to.fullPath }
+            })
+        }
+    } else {
+        next()
+    }
+})
+
+
 
 const app = new Vue({
     el: '#app',

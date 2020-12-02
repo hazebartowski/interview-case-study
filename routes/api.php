@@ -17,7 +17,6 @@ use App\Http\Controllers\Api\ProductController;
 */
 
 Route::group(['prefix' => 'auth'], function() {
-        Route::get('register', [OauthController::class, 'showRegistrationForm'])->name('site.register');
         Route::post('register', [OauthController::class, 'register'])->name('site.register.post');
         Route::get('login', [OauthController::class, 'showLoginForm'])->name('site.login');
         Route::post('login', [OauthController::class, 'login'])->name('site.login.post');

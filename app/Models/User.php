@@ -67,6 +67,7 @@ class User extends Authenticatable
     public function getValidatorRegistration($input): ?ValidatorContract
     {
         return Validator::make($input, [
+            'name' => 'string|max:255',
             'email' => 'required|email|unique:users',
             'password' => 'required|string|min:6|max:10|confirmed'
         ]);

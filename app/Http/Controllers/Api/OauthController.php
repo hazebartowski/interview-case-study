@@ -24,7 +24,7 @@ class OauthController extends BaseController
      *
      * @var string
      */
-    protected $redirectTo = '/';
+   // protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -33,12 +33,7 @@ class OauthController extends BaseController
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
-    }
-
-    public function showRegistrationForm()
-    {
-        return view('site.auth.register');
+      //  $this->middleware('guest')->except('logout');
     }
 
     public function register( Request $request)
@@ -50,13 +45,12 @@ class OauthController extends BaseController
         if ($validator->fails()) {
             return $this->responseJson(true, 201,'Registration failed', $validator->errors()->toArray());
         } else {
-            $user = User::create(
-                [
-                    'name' => $request->name,
-                    'email' => $request->email,
-                    'password' => $request->password,
-                ]
-            );
+            $user = new User();
+            $user->fill($request->all());
+
+            if(!$user->save()) {
+                return $this->responseJson(true, 201,'Registration failed', $validator->errors()->toArray());
+            }
 
             $data = [
                 'name' => $user->getname(),
@@ -85,12 +79,13 @@ class OauthController extends BaseController
         $tokenResult = $user->createToken('user token');
         $tokenResult->token->save();
 
-        if(!$tokenResult->token->id) {
+        if(!$tokenResult->token->save()) {
             Log::error('user token not saved');
         }
 
         $userData = [
-            'email' => $request->email
+            'name' => Auth::user()->name,
+            'email' => Auth::user()->email,
         ];
 
         $data = [
