@@ -7,8 +7,9 @@ Vue.use(VueRouter)
 import Register from './views/auth/RegistrationForm'
 import Login from './views/auth/LoginForm'
 import Homepage from './views/pages/Homepage'
+import ProductDetail from './views/pages/ProductDetail'
 
-export const router = new VueRouter({
+const router = new VueRouter({
     mode: 'history',
     routes: [
         {
@@ -28,12 +29,17 @@ export const router = new VueRouter({
             component:Homepage,
 
         },
+        {
+            path: '/product/:slug',
+            name: 'product-detail',
+            component: ProductDetail
+        },
     ],
 })
 
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth)) {
-        if (localStorage.getItem('access-token') == null) {
+        if (localStorage.getItem('access_token') == null) {
             next({
                 path: '/login',
                 params: { nextUrl: to.fullPath }
@@ -43,3 +49,5 @@ router.beforeEach((to, from, next) => {
         next()
     }
 })
+
+export default router;

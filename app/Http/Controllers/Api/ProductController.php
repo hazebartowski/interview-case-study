@@ -14,8 +14,14 @@ class ProductController extends BaseController
     {
         $this->productRepository = $productRepository;
     }
+
     public function getProducts()
     {
         return $this->productRepository->listProducts();
+    }
+
+    public function getProductDetail($slug)
+    {
+        return $this->responseJson(false, 200, 'Retrieve Product detail successful', $this->productRepository->findProductBySlug($slug));
     }
 }

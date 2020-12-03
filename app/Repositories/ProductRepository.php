@@ -39,4 +39,9 @@ class ProductRepository extends BaseRepository implements ProductContract
             throw new ModelNotFoundException($e);
         }
     }
+
+    public function findProductBySlug($slug)
+    {
+        return Product::where('slug', $slug)->first();
+    }
 }

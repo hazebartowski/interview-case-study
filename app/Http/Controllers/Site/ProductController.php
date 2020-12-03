@@ -1,25 +1,28 @@
 <?php
 
-namespace App\Http\Controllers\site;
+namespace App\Http\Controllers\Site;
 
 use App\Contracts\ProductContract;
-use App\Http\Controllers\BaseController;
+use App\Http\Controllers\Controller;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
-class SiteController extends BaseController
+class ProductController extends Controller
 {
     protected $productRepository;
+    protected $attributeRepository;
 
     public function __construct(ProductContract $productRepository)
     {
         $this->productRepository = $productRepository;
     }
-    public function index()
-    {
-        $products = $this->productRepository->listProducts();
-        return view('site.pages.index', compact('products'));
-    }
 
+    /**
+     * @param $slug
+     * @return Application|Factory|View
+     */
     public function show($slug)
     {
         $product = $this->productRepository->findProductBySlug($slug);

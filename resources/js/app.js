@@ -48,12 +48,12 @@ if (token) {
 
 //Routes
 import App from './components/App';
+//import router from './routes';
 
-//Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-Vue.component('navbar-component', require('./components/NavbarComponent').default);
+/*Vue.component('navbar-component', require('./components/NavbarComponent').default);
 Vue.component('footer-component', require('./components/FooterComponent').default);
 Vue.component('registration-form', require('./views/auth/RegistrationForm').default);
-Vue.component('login-form', require('./views/auth/LoginForm').default);
+Vue.component('login-form', require('./views/auth/LoginForm').default);*/
 Vue.component('product-component', require('./components/ProductComponent').default);
 
 /**
@@ -62,56 +62,8 @@ Vue.component('product-component', require('./components/ProductComponent').defa
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-
-Vue.use(VueRouter)
-
-
-import Register from './views/auth/RegistrationForm'
-import Login from './views/auth/LoginForm'
-import Homepage from './views/pages/Homepage'
-
-export const router = new VueRouter({
-    mode: 'history',
-    routes: [
-        {
-            path:'/register',
-            name: 'register',
-            component:Register
-        },
-        {
-            path:'/login',
-            name: 'login',
-            component:Login,
-
-        },
-        {
-            path:'/',
-            name: 'home',
-            component:Homepage,
-
-        },
-    ],
-})
-
-router.beforeEach((to, from, next) => {
-    if (to.matched.some(record => record.meta.requiresAuth)) {
-        if (localStorage.getItem('access_token') == null) {
-            next({
-                path: '/login',
-                params: { nextUrl: to.fullPath }
-            })
-        }
-    } else {
-        next()
-    }
-})
-
-
-
 const app = new Vue({
     el: '#app',
     components: { App },
-    router
+    //router
 });

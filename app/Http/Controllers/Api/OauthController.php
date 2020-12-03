@@ -24,7 +24,7 @@ class OauthController extends BaseController
      *
      * @var string
      */
-   // protected $redirectTo = '/';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -33,7 +33,7 @@ class OauthController extends BaseController
      */
     public function __construct()
     {
-      //  $this->middleware('guest')->except('logout');
+        $this->middleware('guest')->except('logout');
     }
 
     public function register( Request $request)
@@ -59,11 +59,6 @@ class OauthController extends BaseController
             ];
             return $this->responseJson(false, 200,'Registration Successful', $data);
         }
-    }
-
-    public function showLoginForm()
-    {
-        return view('site.auth.login');
     }
 
     public function login(Request $request)
