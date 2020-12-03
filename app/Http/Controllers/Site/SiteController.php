@@ -12,8 +12,7 @@ class SiteController extends BaseController
 
     public function __construct(ProductContract $productRepository)
     {
-        $this->middleware(['auth','verified']);
-
+        //$this->middleware(['auth','verified']);
         $this->productRepository = $productRepository;
     }
     public function index()

@@ -37,25 +37,16 @@
                 </ul>
             </nav>
             @else
-                <a class="dropdown" href="#" role="button">
-                    Hi, {{ Auth::user()->name }} <span class="caret"></span>
-                </a>
-                <ul class="navbar-nav ml-auto dropdown-menu">
-                    <li>
-                        <div>
-                            <a class="dropdown-item" href="{{ route('site.orders') }}">
-                                {{ __('orders') }}
-                            </a>
-                            <?php /* <a class="dropdown-item" href="{{ route('account.orders') }}">Orders</a> */ ?>
-                            <a class="dropdown-item" href="{{ route('site.logout') }}">
-                                {{ __('Logout') }}
-                            </a>
-                            <form id="logout-form" action="{{ route('site.logout') }}" method="POST" style="display: none;">
-                                @csrf
-                            </form>
-                        </div>
-                    </li>
-                </ul>
+                <nav>
+                    <ul class="md:flex items-center justify-between text-base text-gray-700 pt-4 md:pt-0">
+                        <li>Hi, {{ Auth::user()->name }}</li>
+                        <li><a class="inline-block no-underline hover:text-black hover:underline py-2 px-4" href="{{ route('site.orders') }}">{{ __('orders') }}</a></li>
+                        <li><a class="inline-block no-underline hover:text-black hover:underline py-2 px-4" href="{{ route('site.logout') }}">{{ __('Logout') }}</a></li>
+                        <form id="logout-form" action="{{ route('site.logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                    </ul>
+                </nav>
             @endguest
 
             <a class="pl-3 inline-block no-underline hover:text-black" href="{{route('checkout.cart')}}">

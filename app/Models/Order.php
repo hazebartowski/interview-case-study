@@ -39,7 +39,7 @@ class Order extends Model
     }
 
     /*******************
-     * ENTTITY FUNCTIONS
+     * RELATIONSHIP FUNCTIONS
      ******************
      */
 
@@ -51,5 +51,85 @@ class Order extends Model
     public function items()
     {
         return $this->hasMany(OrderItem::class);
+    }
+
+    /*******************
+     * ENTITY FUNCTIONS
+     ******************
+     */
+
+    public function getFirstName()
+    {
+        return $this->first_name;
+    }
+
+    public function getLastName()
+    {
+        return $this->last_name;
+    }
+
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    public function getCity()
+    {
+        return $this->city;
+    }
+
+    public function getCountry()
+    {
+        return $this->country;
+    }
+
+    public function getPostcode()
+    {
+        return $this->post_code;
+    }
+
+    public function getPhoneNumber()
+    {
+        return $this->phone_number;
+    }
+
+    public function getNotes()
+    {
+        return $this->notes;
+    }
+
+    public function getOrderNumber()
+    {
+        return $this->order_number;
+    }
+
+    public function getUserId()
+    {
+        return $this->user_id;
+    }
+
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    public function getGrandTotal()
+    {
+        return $this->grand_total;
+    }
+
+    public function getItemCount()
+    {
+        return $this->item_count;
+    }
+
+    public function getPaymentStatus()
+    {
+        return $this->payment_status;
+    }
+
+    public function getPaymentMethod()
+    {
+        return $this->payment_method;
     }
 }

@@ -15,10 +15,10 @@
                 <tbody>
                 @forelse ($orders as $order)
                     <tr>
-                        <th>{{ $order->order_number }}</th>
-                        <td>RM {{ round($order->grand_total, 2) }}</td>
-                        <td>{{ $order->item_count }}</td>
-                        <td><span class="badge badge-success">{{ strtoupper($order->status) }}</span></td>
+                        <th>{{ $order->getOrderNumber() }}</th>
+                        <td>RM {{ round($order->getGrandTotal(), 2) }}</td>
+                        <td>{{ $order->getItemCount() }}</td>
+                        <td><span class="badge badge-success">{{ strtoupper($order->getStatus()) }}</span></td>
                     </tr>
                 @empty
                     <div>

@@ -7,21 +7,21 @@
                 <img class="h-full w-full rounded-md object-cover max-w-lg mx-auto" src="https://images.unsplash.com/photo-1508423134147-addf71308178?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&h=400&q=80" alt="{{$product->name}}">
             </div>
             <div class="w-full max-w-lg mx-auto mt-5 md:ml-8 md:mt-0 md:w-1/2">
-                <h3 class="text-gray-700 uppercase text-lg">{{$product->name}}</h3>
-                <span class="text-gray-500 mt-3">RM{{ $product->price }}</span>
+                <h3 class="text-gray-700 uppercase text-lg">{{$product->getName()}}</h3>
+                <span class="text-gray-500 mt-3">RM{{ $product->getPrice() }}</span>
                 <hr class="my-3">
                 <form action="{{ route('product.add.cart') }}" method="POST" role="form" id="addToCart">
                     @csrf
                     <div class="mt-2">
-                        <label class="text-gray-700 text-sm">Available Quantity: {{$product->quantity}}</label>
-                        <input type="hidden" name="productId" value="{{ $product->id }}">
+                        <label class="text-gray-700 text-sm">Available Quantity: {{$product->getQuantity()}}</label>
+                        <input type="hidden" name="productId" value="{{ $product->getKey() }}">
                     </div>
                     <div>
                         <label for="price" class="block text-sm font-medium text-gray-700">Quantity:</label>
                         <div class="mt-1 relative rounded-md shadow-sm">
-                            <input type="number" name="quantity" id="quantity" class="focus:ring-indigo-500 focus:border-indigo-500 border-2 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md">
-                            <input type="hidden" name="productId" value="{{ $product->id }}">
-                            <input type="hidden" name="price" id="price" value="{{ $product->price}}">
+                            <input type="number" name="quantity" id="quantity" min="0" max="{{$product->getQuantity()}}" class="focus:ring-indigo-500 focus:border-indigo-500 border-2 block w-1/5 pl-7 pr-12 sm:text-sm border-gray-300 rounded-md">
+                            <input type="hidden" name="productId" value="{{ $product->getKey() }}">
+                            <input type="hidden" name="price" id="price" value="{{ $product->getPrice()}}">
                         </div>
                     </div>
                     <div class="flex items-center mt-6">
