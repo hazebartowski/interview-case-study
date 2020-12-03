@@ -38,9 +38,7 @@ class OauthController extends BaseController
 
     public function register( Request $request)
     {
-        $input = $request->all();
-
-        $validator = (new User)->getValidatorRegistration($input);
+        $validator = (new User)->getValidatorRegistration($request->all());
 
         if ($validator->fails()) {
             return $this->responseJson(true, 201,'Registration failed', $validator->errors()->toArray());

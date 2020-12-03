@@ -10,7 +10,7 @@ use Laravel\Passport\HasApiTokens;
 use Illuminate\Contracts\Validation\Validator as ValidatorContract;
 use Illuminate\Support\Facades\Validator;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable, HasApiTokens;
 
@@ -91,6 +91,16 @@ class User extends Authenticatable
     public function getCreatedAt()
     {
         return $this->created_at;
+    }
+
+    /*******************
+     * RELATIONSHIP FUNCTIONS
+     ******************
+     */
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
     }
 
 }

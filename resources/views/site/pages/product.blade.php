@@ -10,26 +10,27 @@
                 <h3 class="text-gray-700 uppercase text-lg">{{$product->name}}</h3>
                 <span class="text-gray-500 mt-3">RM{{ $product->price }}</span>
                 <hr class="my-3">
-                <div class="mt-2">
-                    <label class="text-gray-700 text-sm">Available Quantity: {{$product->quantity}}</label>
-                </div>
-                <div class="mt-2">
-                    <div class="flex flex-row h-10 w-full rounded-lg relative bg-transparent mt-1">
-                        <button data-action="decrement" class=" bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-l cursor-pointer outline-none">
-                            <span class="m-auto text-2xl font-thin">−</span>
-                        </button>
-                        <input type="number" class="outline-none focus:outline-none text-center w-full bg-gray-300 font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-700  outline-none" name="custom-input-number" value="0"></input>
-                        <button data-action="increment" class="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-r cursor-pointer">
-                            <span class="m-auto text-2xl font-thin">+</span>
+                <form action="{{ route('product.add.cart') }}" method="POST" role="form" id="addToCart">
+                    @csrf
+                    <div class="mt-2">
+                        <label class="text-gray-700 text-sm">Available Quantity: {{$product->quantity}}</label>
+                        <input type="hidden" name="productId" value="{{ $product->id }}">
+                    </div>
+                    <div>
+                        <label for="price" class="block text-sm font-medium text-gray-700">Quantity:</label>
+                        <div class="mt-1 relative rounded-md shadow-sm">
+                            <input type="number" name="quantity" id="quantity" class="focus:ring-indigo-500 focus:border-indigo-500 border-2 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md">
+                            <input type="hidden" name="productId" value="{{ $product->id }}">
+                            <input type="hidden" name="price" id="price" value="{{ $product->price}}">
+                        </div>
+                    </div>
+                    <div class="flex items-center mt-6">
+                        <button class="mx-2 text-gray-600 border rounded-md p-2 hover:bg-gray-200 focus:outline-none">
+                            <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                         </button>
                     </div>
-                </div>
-                <div class="flex items-center mt-6">
-                    <a href="" class="px-8 py-2 bg-indigo-600 text-white text-sm font-medium rounded hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500">Order Now</a>
-                    <button class="mx-2 text-gray-600 border rounded-md p-2 hover:bg-gray-200 focus:outline-none">
-                        <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                    </button>
-                </div>
+                </form>
+
             </div>
         </div>
         <div class="mt-16">

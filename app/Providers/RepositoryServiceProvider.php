@@ -3,12 +3,15 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Contracts\ProductContract;
+use App\Contracts\OrderContract;
 use App\Repositories\ProductRepository;
+use App\Repositories\OrderRepository;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
     protected $repositories = [
-        ProductContract::class       =>          ProductRepository::class,
+        ProductContract::class => ProductRepository::class,
+        OrderContract::class => OrderRepository::class,
     ];
 
     /**

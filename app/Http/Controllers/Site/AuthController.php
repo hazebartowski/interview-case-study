@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Auth\Events\Registered;
 
 /**
  * Class AuthController
@@ -43,9 +43,7 @@ class AuthController extends BaseController
 
     public function register( Request $request)
     {
-        $input = $request->all();
-
-        $validator = (new User)->getValidatorRegistration($input);
+        $validator = (new User)->getValidatorRegistration($request->all());
 
         if ($validator->fails()) {
             return $this->responseRedirectBack('Registration failed.', 'error', true, true);
@@ -56,6 +54,7 @@ class AuthController extends BaseController
             if(!$user->save()) {
                 return $this->responseRedirectBack('Registration failed.', 'error', true, true);
             }
+            event(new Registered($user));
             return $this->responseRedirectBack('Registration successful. please check your email.', 'success', true, true);
         }
     }
